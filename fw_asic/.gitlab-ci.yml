@@ -1,0 +1,17 @@
+build:
+  stage: build
+  image: [REDACTED]
+  script:
+    - cmake -GNinja -S . -B build -DCMAKE_BUILD_TYPE=Release
+    - cmake --build build 
+  artifacts:
+    paths:
+      - build/*.a
+    expire_in: 1 day
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+  tags:
+    - docker
